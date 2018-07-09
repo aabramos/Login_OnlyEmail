@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Allows users to login exclusively with their email address in the input box.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function login_onlyemail_form_user_login_form_alter(&$form, FormStateInterface $form_state) {
+  $form['name']['#title'] = t('Email address');
+  $form['name']['#description'] = t('Enter your email address.');
+  $form['name']['#element_validate'][] = 'login_onlyemail_user_login_validate';
+}
+
+/**
+ * Form element validation handler for the user login form.
+ *
+ * Allows users to authenticate by email.
+ */
+function login_onlyemail_user_login_validate($form, FormStateInterface $form_state) {
+  $name_input = $form_state->getValue('name');
+
+  // Try loading by email.
+  if ($user = user_load_by_mail($name_input)) {
+    // Set the username for further validation.
+    $form_state->setValue('name', $user->getAccountName());
+    return TRUE;
+  }
+
+  // Block loading by username.
+  if ($user = user_load_by_name($name_input)) {
+    $form_state->setErrorByName('name', t('Unrecognized username or password. <a href=":password">Forgot your password?</a>', [':password' => \Drupal::url('user.pass', [], ['query' => ['name' => $name_input]])]));
+    $form_state->setRebuild();
+    return FALSE;
+  }
+  return FALSE;
+}

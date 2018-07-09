@@ -1,0 +1,10 @@
+name: Login with email only
+type: module
+description: 'Allow users to log in exclusively with the email address using the input box on the login form.'
+# core: 8.x
+
+# Information added by Drupal.org packaging script on 2018-07-08
+version: '8.x-1.0'
+core: '8.x'
+project: 'login_onlyemail'
+datestamp: 1531097694
