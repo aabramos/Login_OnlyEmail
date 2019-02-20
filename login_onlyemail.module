@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -33,9 +34,39 @@ function login_onlyemail_user_login_validate($form, FormStateInterface $form_sta
 
   // Block loading by username.
   if ($user = user_load_by_name($name_input)) {
-    $form_state->setErrorByName('name', t('Unrecognized username or password. <a href=":password">Forgot your password?</a>', [':password' => \Drupal::url('user.pass', [], ['query' => ['name' => $name_input]])]));
+    $form_state->setErrorByName(
+      'name', t('Unrecognized username or password. <a href=":password">Forgot your password?</a>',
+          [
+            ':password' => \Drupal::url('user.pass', [], ['query' => ['name' => $name_input]]),
+          ]
+        )
+      );
     $form_state->setRebuild();
     return FALSE;
   }
   return FALSE;
+}
+
+/**
+ * Implements hook_help().
+ *
+ * @inheritdoc
+ */
+function login_onlyemail_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.login_onlyemail':
+      $text = file_get_contents(dirname(__FILE__) . '/README.md');
+      if (!\Drupal::moduleHandler()->moduleExists('markdown')) {
+        return '<pre>' . $text . '</pre>';
+      }
+      else {
+        // Use the Markdown filter to render the README.
+        $filter_manager = \Drupal::service('plugin.manager.filter');
+        $settings = \Drupal::configFactory()->get('markdown.settings')->getRawData();
+        $config = ['settings' => $settings];
+        $filter = $filter_manager->createInstance('markdown', $config);
+        return $filter->process($text, 'en');
+      }
+  }
+  return NULL;
 }
