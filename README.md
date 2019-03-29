@@ -1,32 +1,50 @@
-# Login_OnlyEmail
-This simple Drupal 8 module allows users to log in <strong>exclusively</strong> with their email address from the standard login form.
+CONTENTS OF THIS FILE
+---------------------
 
-<strong>Setup:</strong>
+ * Introduction
+ * Requirements
+ * Recommended modules
+ * Installation
+ * Configuration
+ * Maintainers
 
-Just enable the module.
 
-<strong>Recommended Modules:</strong>
+INTRODUCTION
+------------
 
-This module is based on the <strong>Login Email or Username</strong> module:
+This simple Drupal 8 module allows users to log in exclusively 
+with their email address from the standard login form.
 
-https://www.drupal.org/project/login_emailusername
 
-<strong>Dependencies:</strong>
+REQUIREMENTS
+------------
 
 Core dependencies only.
 
-<strong>Installation:</strong>
+
+RECOMMENDED MODULES
+-------------------
+
+This module is based on the <strong>Login Email or Username</strong> module: 
+https://www.drupal.org/project/login_emailusername
+
+
+INSTALLATION
+------------
 
 Install via /admin/modules
 or
-<code>drush en login_onlyemail -y</code>
+drush en login_onlyemail -y
 
-<strong>Configuration:</strong>
+
+CONFIGURATION
+-------------
 
 There are no configuration options.
 
-<strong>Maintainer:</strong>
 
-Adriano Ramos
+MAINTAINER
+----------
 
+Adriano Alberto Borges Ramos
 https://www.drupal.org/u/aabramos
